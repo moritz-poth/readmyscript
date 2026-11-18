@@ -65,7 +65,30 @@ ditto -c -k --keepParent "$APP" "$ZIP"
 # update signature: installed apps only accept zips signed with the key in this Mac's Keychain
 if PUB=$(swift scripts/update-key.swift public 2>/dev/null) && grep -q "\"$PUB\"" Sources/ReadMyScript/Updater.swift \
    && swift scripts/update-key.swift sign "$ZIP"; then
-  echo "Done: $APP, $ZIP (+ .sig – upload both)"
+  SIGNED=1
 else
-  echo "Done: $APP, $ZIP – NOT SIGNED (no update key, or it differs from Updater.publicKey): not releasable" >&2
+  SIGNED=0
+fi
+
+# download image: the shared DMG look (moe-apps skill "DMG window"), 660 × 400, split background, motion trail;
+# the updater keeps using the zip. create-dmg arranges the window through the Finder (needs Finder automation once).
+DMG="dist/ReadMyScript-$RELEASE.dmg"
+# never touch someone else's volume: the Finder's disk "Read my Script" below must be ours
+if ls /Volumes | grep -Eq '^Read my Script( [0-9]+)?$'; then echo "a volume \"Read my Script\" is mounted – eject it first" >&2; exit 1; fi
+STAGE=.build/dmg-stage
+rm -rf "$STAGE" "$DMG"
+mkdir -p "$STAGE"
+ditto "$APP" "$STAGE/Read my Script.app"
+swift scripts/make-dmg-background.swift Resources/icon/AppIcon.png .build/dmg-bg.png 1
+swift scripts/make-dmg-background.swift Resources/icon/AppIcon.png .build/dmg-bg@2x.png 2
+tiffutil -cathidpicheck .build/dmg-bg.png .build/dmg-bg@2x.png -out .build/dmg-background.tiff 2>/dev/null
+create-dmg --volname "Read my Script" --window-size 660 400 --icon-size 128 \
+  --icon "Read my Script.app" 170 188 --app-drop-link 490 188 --hide-extension "Read my Script.app" \
+  --background .build/dmg-background.tiff --no-internet-enable "$DMG" "$STAGE" >/dev/null
+rm -rf "$STAGE"
+
+if [ "$SIGNED" = 1 ]; then
+  echo "Done: $APP, $DMG, $ZIP (+ .sig – upload all three)"
+else
+  echo "Done: $APP, $DMG, $ZIP – NOT SIGNED (no update key, or it differs from Updater.publicKey): not releasable" >&2
 fi

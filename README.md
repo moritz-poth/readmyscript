@@ -28,7 +28,7 @@ Turns a screenplay PDF into an audiobook: a narrator reads the action, every rol
 
 ## Install
 
-Requires macOS 14 or later, Apple Silicon or Intel, and [VoiceStudio](https://github.com/debpalash/VoiceStudio) – if it is missing, Read my Script offers to install it (official release, checked for its developer's Apple signature and notarisation). Download `ReadMyScript-<version>.zip` from [Releases](../../releases), unzip, move the app to Applications (so it can update itself). It is not signed with a paid Apple certificate: on first launch, open **System Settings → Privacy & Security** and click **Open Anyway** (once).
+Requires macOS 14 or later, Apple Silicon or Intel, and [VoiceStudio](https://github.com/debpalash/VoiceStudio) – if it is missing, Read my Script offers to install it (official release, checked for its developer's Apple signature and notarisation). Download `ReadMyScript-<version>.dmg` from [Releases](../../releases), open it and drag the app onto the Applications folder (so it can update itself). It is not signed with a paid Apple certificate: on first launch, open **System Settings → Privacy & Security** and click **Open Anyway** (once).
 
 Making an audiobook takes roughly seven times its playing time on an Apple Silicon Mac – a 90-minute script runs about ten hours.
 
