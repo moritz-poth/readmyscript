@@ -4,8 +4,8 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 VERSION=0.2.0          # CFBundleShortVersionString (numbers only)
-RELEASE=0.2.0          # tag and zip name, may be "0.2.0-beta.1"
-BUILD=2
+RELEASE=0.2.0-beta.1          # tag and zip name, may be "0.2.0-beta.1"
+BUILD=3
 APP="dist/Read my Script.app"
 
 swift build -c release --arch arm64 --product ReadMyScript
