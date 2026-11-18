@@ -5,13 +5,16 @@ Read my Script turns a screenplay PDF into an audiobook. A narrator reads the ac
 ## Your script stays on this Mac
 
 - The script only goes to VoiceStudio on this computer (address 127.0.0.1) – never to the internet.
-- The only connection to the internet is the question to GitHub whether there is a new version of Read my Script. It contains nothing from your scripts.
+- Read my Script only goes online to GitHub: to ask whether there is a new version of itself, and – only when you click **Install VoiceStudio** – to download VoiceStudio. Neither contains anything from your scripts.
 - The log file lists what the app did, without any text from your scripts.
 - Read my Script warns you when VoiceStudio's usage statistics or cloud sync are switched on. Switch them off in VoiceStudio before you read a script.
 
 ## Before you start
 
-- Install and open **VoiceStudio**. The dot at the top right turns green when it is ready; otherwise click **Start VoiceStudio**.
+- Read my Script only works together with **VoiceStudio**. As long as it is missing, the window shows a short setup: **Install VoiceStudio** downloads the current version from VoiceStudio's official GitHub page and puts it into the Applications folder – only if Apple confirms that it is signed by its developer and unchanged. **Download page** lets you install it yourself instead.
+- On its first start, VoiceStudio downloads its speech model (about 2.4 GB) and shows the model's license, which allows non-commercial use only. Read and accept it there yourself – Read my Script does not do that for you.
+- Read my Script then switches off VoiceStudio's usage statistics, cloud sync and network sharing.
+- The dot at the top right turns green when VoiceStudio is ready; otherwise click **Start VoiceStudio**.
 - Create a few voices in VoiceStudio – or build new ones from Read my Script (see "A new voice").
 
 ## Open a script

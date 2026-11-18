@@ -5,13 +5,16 @@ Read my Script macht aus einem Drehbuch-PDF ein Hörbuch. Ein Erzähler liest di
 ## Dein Drehbuch bleibt auf diesem Mac
 
 - Das Drehbuch geht nur an VoiceStudio auf diesem Computer (Adresse 127.0.0.1) – nie ins Internet.
-- Die einzige Verbindung ins Internet ist die Frage an GitHub, ob es eine neue Version von Read my Script gibt. Sie enthält nichts aus deinen Drehbüchern.
+- Read my Script geht nur zu GitHub ins Internet: um nach einer neuen eigenen Version zu fragen und – nur wenn du **VoiceStudio installieren** klickst – um VoiceStudio zu laden. Beides enthält nichts aus deinen Drehbüchern.
 - Die Log-Datei listet, was die App getan hat – ohne Text aus deinen Drehbüchern.
 - Read my Script warnt, wenn in VoiceStudio die Nutzungsstatistik oder die Cloud-Synchronisierung an ist. Schalte beides in VoiceStudio aus, bevor du ein Drehbuch vorlesen lässt.
 
 ## Bevor es losgeht
 
-- Installiere und öffne **VoiceStudio**. Der Punkt oben rechts wird grün, sobald es bereit ist; sonst klicke **VoiceStudio starten**.
+- Read my Script funktioniert nur zusammen mit **VoiceStudio**. Solange es fehlt, zeigt das Fenster eine kurze Einrichtung: **VoiceStudio installieren** lädt die aktuelle Version von der offiziellen GitHub-Seite von VoiceStudio und legt sie in den Ordner „Programme“ – nur wenn Apple bestätigt, dass sie vom Entwickler signiert und unverändert ist. Über **Download-Seite** kannst du es stattdessen selbst installieren.
+- Beim ersten Start lädt VoiceStudio sein Sprachmodell (etwa 2,4 GB) und zeigt dessen Lizenz, die nur nicht-kommerzielle Nutzung erlaubt. Lies und bestätige sie dort selbst – das nimmt dir Read my Script nicht ab.
+- Danach schaltet Read my Script in VoiceStudio Nutzungsstatistik, Cloud-Synchronisierung und Netzwerkfreigabe aus.
+- Der Punkt oben rechts wird grün, sobald VoiceStudio bereit ist; sonst klicke **VoiceStudio starten**.
 - Lege in VoiceStudio ein paar Stimmen an – oder baue neue direkt in Read my Script (siehe „Eine neue Stimme“).
 
 ## Drehbuch öffnen

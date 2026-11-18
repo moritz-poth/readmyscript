@@ -68,6 +68,11 @@ struct PlannerTests {
     }
 
     @Test func testEvents() throws {
+        // an error event never carries VoiceStudio's text (it may quote the script) into the app or the log
+        #expect(throws: VoiceStudio.Failure.self) { try VoiceStudio.event(Data(#"{"type":"error","error":"bad span: SECRET LINE"}"#.utf8)) }
+        do { _ = try VoiceStudio.event(Data(#"{"type":"error","error":"SECRET LINE"}"#.utf8)) } catch {
+            #expect(!error.localizedDescription.contains("SECRET"))
+        }
         #expect(try VoiceStudio.event(Data(#"{"type":"started","job_id":"x","chapters":3}"#.utf8)) == .started(chapters: 3, job: "x"))
         #expect(try VoiceStudio.event(Data(#"{"type":"chapter","index":0,"total":3}"#.utf8)) == .chapterDone(index: 0, total: 3))
         #expect(try VoiceStudio.event(Data(#"{"type":"done","output":"story_1.m4b","chapters":3,"failed_chapters":[]}"#.utf8)) == .done(output: "story_1.m4b", failed: []))
@@ -111,6 +116,9 @@ struct PlannerTests {
                 let updater = f.lastPathComponent == "Updater.swift"
                 let ok = u.hasPrefix("http://127.0.0.1:3900") || u.hasPrefix("file://")
                     || (updater && u.hasPrefix("https://api.github.com/repos/moritz-poth/readmyscript/releases"))
+                    // installing VoiceStudio: its official release and download page, nothing else
+                    || (f.lastPathComponent == "StudioRelease.swift" && (u.hasPrefix("https://api.github.com/repos/debpalash/VoiceStudio/releases/latest")
+                        || u.hasPrefix("https://github.com/debpalash/VoiceStudio/releases/")))
                     || u.hasPrefix("https://github.com/moritz-poth/readmyscript")
                     || u == "https://www.gnu.org/licenses/gpl-3.0.html" || u == "https://buymeacoffee.com/moritzpoth"
                 #expect(ok, Comment(rawValue: "\(f.lastPathComponent): \(u)"))

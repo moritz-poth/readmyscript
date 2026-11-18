@@ -22,13 +22,13 @@ Turns a screenplay PDF into an audiobook: a narrator reads the action, every rol
 ## Your script stays on this Mac
 
 - The script only goes to VoiceStudio on `127.0.0.1`. A test in the code fails on any other network address.
-- The only internet connection is the update check: the GitHub releases of this project. It contains nothing from your scripts.
+- Internet only for GitHub: the update check (this project's releases) and, when you click Install VoiceStudio, VoiceStudio's official release. Neither contains anything from your scripts.
 - The log file holds events and file names, never script text.
-- The app warns when VoiceStudio's usage statistics or cloud sync are switched on.
+- The app switches off VoiceStudio's usage statistics, cloud sync and network sharing during setup and warns if they are on later.
 
 ## Install
 
-Requires macOS 14 or later, Apple Silicon or Intel, and VoiceStudio with at least one voice. Download `ReadMyScript-<version>.zip` from [Releases](../../releases), unzip, move the app to Applications (so it can update itself). It is not signed with a paid Apple certificate: on first launch, open **System Settings → Privacy & Security** and click **Open Anyway** (once).
+Requires macOS 14 or later, Apple Silicon or Intel, and [VoiceStudio](https://github.com/debpalash/VoiceStudio) – if it is missing, Read my Script offers to install it (official release, checked for its developer's Apple signature and notarisation). Download `ReadMyScript-<version>.zip` from [Releases](../../releases), unzip, move the app to Applications (so it can update itself). It is not signed with a paid Apple certificate: on first launch, open **System Settings → Privacy & Security** and click **Open Anyway** (once).
 
 Making an audiobook takes roughly seven times its playing time on an Apple Silicon Mac – a 90-minute script runs about ten hours.
 

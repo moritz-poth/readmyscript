@@ -37,7 +37,7 @@ struct ReadMyScriptApp: App {
                 Button("Settings…") { SettingsWindow.shared.show() }.keyboardShortcut(",")
             }
             CommandGroup(replacing: .newItem) {
-                Button("Open PDF…") { openPanel(model) }.keyboardShortcut("o").disabled(model.busy)
+                Button("Open PDF…") { openPanel(model) }.keyboardShortcut("o").disabled(model.busy || model.needsSetup)
             }
             CommandGroup(replacing: .help) {
                 Button("Read my Script Manual") { openWindow(id: "manual") }.keyboardShortcut("?")

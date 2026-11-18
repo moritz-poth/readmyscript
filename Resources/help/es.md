@@ -5,13 +5,16 @@ Read my Script convierte el PDF de un guion en un audiolibro. Un narrador lee la
 ## Tu guion se queda en este Mac
 
 - El guion solo pasa a VoiceStudio en este ordenador (dirección 127.0.0.1), nunca a Internet.
-- La única conexión a Internet es la pregunta a GitHub de si hay una versión nueva de Read my Script. No contiene nada de tus guiones.
+- Read my Script solo se conecta a GitHub: para preguntar si hay una versión nueva de sí mismo y, solo si haces clic en **Instalar VoiceStudio**, para descargar VoiceStudio. Ninguna de las dos cosas contiene nada de tus guiones.
 - El archivo de registro enumera lo que hizo la app, sin ningún texto de tus guiones.
 - Read my Script avisa cuando las estadísticas de uso o la sincronización en la nube de VoiceStudio están activadas. Desactívalas en VoiceStudio antes de leer un guion.
 
 ## Antes de empezar
 
-- Instala y abre **VoiceStudio**. El punto de arriba a la derecha se vuelve verde cuando está listo; si no, haz clic en **Abrir VoiceStudio**.
+- Read my Script solo funciona junto con **VoiceStudio**. Mientras falte, la ventana muestra una breve configuración: **Instalar VoiceStudio** descarga la versión actual de la página oficial de VoiceStudio en GitHub y la pone en la carpeta Aplicaciones, solo si Apple confirma que está firmada por su desarrollador y sin cambios. Con **Página de descarga** puedes instalarla tú mismo.
+- En su primer inicio, VoiceStudio descarga su modelo de voz (unos 2,4 GB) y muestra su licencia, que solo permite el uso no comercial. Léela y acéptala tú mismo: Read my Script no lo hace por ti.
+- Después, Read my Script desactiva en VoiceStudio las estadísticas de uso, la sincronización en la nube y el uso compartido en red.
+- El punto de arriba a la derecha se vuelve verde cuando VoiceStudio está listo; si no, haz clic en **Abrir VoiceStudio**.
 - Crea algunas voces en VoiceStudio, o crea voces nuevas desde Read my Script (consulta «Una voz nueva»).
 
 ## Abrir un guion

@@ -5,13 +5,16 @@ Read my Script transforme le PDF d’un scénario en livre audio. Un narrateur l
 ## Votre scénario reste sur ce Mac
 
 - Le scénario n’est transmis qu’à VoiceStudio sur cet ordinateur (adresse 127.0.0.1) – jamais à Internet.
-- La seule connexion à Internet est la question posée à GitHub pour savoir s’il existe une nouvelle version de Read my Script. Elle ne contient rien de vos scénarios.
+- Read my Script ne se connecte qu’à GitHub : pour savoir s’il existe une nouvelle version de lui-même et – seulement si vous cliquez sur **Installer VoiceStudio** – pour télécharger VoiceStudio. Rien de vos scénarios n’est envoyé.
 - Le fichier journal liste ce que l’app a fait, sans aucun texte de vos scénarios.
 - Read my Script vous avertit quand les statistiques d’utilisation ou la synchronisation cloud de VoiceStudio sont activées. Désactivez-les dans VoiceStudio avant de lire un scénario.
 
 ## Avant de commencer
 
-- Installez et ouvrez **VoiceStudio**. Le point en haut à droite devient vert quand il est prêt ; sinon cliquez sur **Ouvrir VoiceStudio**.
+- Read my Script ne fonctionne qu’avec **VoiceStudio**. Tant qu’il manque, la fenêtre affiche une courte configuration : **Installer VoiceStudio** télécharge la version actuelle depuis la page GitHub officielle de VoiceStudio et la place dans le dossier Applications – seulement si Apple confirme qu’elle est signée par son développeur et intacte. **Page de téléchargement** vous permet de l’installer vous-même.
+- Au premier démarrage, VoiceStudio télécharge son modèle vocal (environ 2,4 Go) et affiche sa licence, qui n’autorise qu’un usage non commercial. Lisez-la et acceptez-la vous-même – Read my Script ne le fait pas à votre place.
+- Read my Script désactive ensuite les statistiques d’utilisation, la synchronisation cloud et le partage réseau de VoiceStudio.
+- Le point en haut à droite devient vert quand VoiceStudio est prêt ; sinon cliquez sur **Ouvrir VoiceStudio**.
 - Créez quelques voix dans VoiceStudio – ou créez-en de nouvelles depuis Read my Script (voir « Une nouvelle voix »).
 
 ## Ouvrir un scénario

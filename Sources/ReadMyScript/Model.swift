@@ -20,6 +20,12 @@ final class AppModel: ObservableObject {
     @Published var studioReady = false
     @Published var analyticsOn = false
     @Published var cloudSyncOn = false
+    @Published var studioInstalled = StudioSetup.installedURL != nil
+    /// VoiceStudio's speech model is downloaded (nil = VoiceStudio not running, unknown)
+    @Published var modelsReady: Bool?
+    /// The window shows the VoiceStudio setup instead of the app until this is false.
+    var needsSetup: Bool { !studioInstalled || (studioReady && modelsReady == false) }
+    private var madePrivate = false
     @Published var voices: [VoiceStudio.Voice] = []
     @Published var cast = Cast()
     /// "German", "English" or nil (VoiceStudio decides per voice)
@@ -51,9 +57,16 @@ final class AppModel: ObservableObject {
     }
 
     func refreshStudio() async {
+        studioInstalled = StudioSetup.installedURL != nil
         analyticsOn = VoiceStudio.analyticsEnabled() == true
         let ready = await studio.isRunning()
         cloudSyncOn = ready ? await studio.cloudSyncOn() : false
+        modelsReady = ready ? await studio.modelsReady() : nil
+        // while VoiceStudio is being set up for Read my Script: switch off what sends data, once per launch
+        if ready, !madePrivate, StudioSetup.shared.state == .done || modelsReady == false {
+            madePrivate = true
+            await makeStudioPrivate()
+        }
         if ready && (!studioReady || voices.isEmpty) {
             do {
                 voices = try await studio.voices()
@@ -65,14 +78,22 @@ final class AppModel: ObservableObject {
     }
 
     func launchStudio() {
-        guard let app = NSWorkspace.shared.urlForApplication(withBundleIdentifier: "com.voicestudio.desktop") else { return }
+        guard let app = StudioSetup.installedURL else { return }
         NSWorkspace.shared.openApplication(at: app, configuration: .init())
+    }
+
+    /// Usage statistics, cloud sync and network sharing off in VoiceStudio.
+    func makeStudioPrivate() async {
+        let ok = await studio.makePrivate()
+        Log.write("VoiceStudio privacy settings switched off" + (ok ? "" : " (VoiceStudio refused one)"))
+        analyticsOn = VoiceStudio.analyticsEnabled() == true
+        cloudSyncOn = await studio.cloudSyncOn()
     }
 
     // MARK: - Script
 
     func open(_ url: URL) {
-        guard !busy else { return }
+        guard !busy, !needsSetup else { return }
         do {
             let s = try ScriptParser.parse(url)
             pdf = url; script = s; openError = nil; phase = .idle

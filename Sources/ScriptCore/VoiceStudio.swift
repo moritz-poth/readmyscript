@@ -86,6 +86,40 @@ public struct VoiceStudio: Sendable {
         return data
     }
 
+    /// Whether VoiceStudio's speech model is downloaded (its own setup does that, with the model's license). nil = unknown.
+    public func modelsReady() async -> Bool? {
+        struct S: Decodable { var models_ready: Bool }
+        guard let (d, _) = try? await session.data(from: Self.base.appendingPathComponent("setup/status")),
+              let s = try? JSONDecoder().decode(S.self, from: d) else { return nil }
+        return s.models_ready
+    }
+
+    /// Switches off everything in VoiceStudio that sends data off this Mac or opens it to the network:
+    /// usage statistics, cloud sync, sharing on the local network. Returns false if VoiceStudio refused one.
+    @discardableResult
+    public func makePrivate() async -> Bool {
+        var ok = true
+        func send(_ path: String, method: String, json: String? = nil) async {
+            var r = URLRequest(url: Self.base.appendingPathComponent(path))
+            r.httpMethod = method
+            if let json { r.setValue("application/json", forHTTPHeaderField: "Content-Type"); r.httpBody = Data(json.utf8) }
+            let code = ((try? await session.data(for: r))?.1 as? HTTPURLResponse)?.statusCode
+            if code != 200 { ok = false }
+        }
+        await send("api/settings/analytics", method: "PUT", json: #"{"enabled":false}"#)
+        if await cloudSyncOn() { await send("api/cloud-sync/off", method: "POST") }
+        if await networkSharingOn() { await send("system/network/disable", method: "POST") }
+        return ok
+    }
+
+    /// VoiceStudio's "share on the local network" (off by default): other devices could then use it.
+    public func networkSharingOn() async -> Bool {
+        struct S: Decodable { var enabled: Bool }
+        guard let (d, _) = try? await session.data(from: Self.base.appendingPathComponent("system/network/state")),
+              let s = try? JSONDecoder().decode(S.self, from: d) else { return false }
+        return s.enabled
+    }
+
     /// VoiceStudio's cloud sync (needs an account; off by default). When on, profiles and settings leave the Mac.
     public func cloudSyncOn() async -> Bool {
         struct S: Decodable { var enabled: Bool }
@@ -141,7 +175,8 @@ public struct VoiceStudio: Sendable {
         case "assembling", "mastering": return .assembling
         case "done": return .done(output: e.output ?? "", failed: e.failed_chapters ?? [])
         case "stopped": return .stopped
-        case "error": throw Failure(message: e.error ?? "VoiceStudio error")
+        // not VoiceStudio's text: it can quote the span that failed, i.e. script text, and ends up in the log
+        case "error": throw Failure(message: "VoiceStudio: render error")
         default: return nil
         }
     }

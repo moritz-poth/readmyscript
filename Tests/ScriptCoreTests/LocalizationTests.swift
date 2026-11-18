@@ -11,7 +11,7 @@ struct LocalizationTests {
         let files = FileManager.default.enumerator(at: dir, includingPropertiesForKeys: nil)!
             .compactMap { $0 as? URL }.filter { $0.pathExtension == "swift" && !$0.path.contains("rms-dump") }
         let src = try files.map { try String(contentsOf: $0, encoding: .utf8) }.joined()
-        let rx = try NSRegularExpression(pattern: #"(?:Text|Button|localized:|Window|hint|title:|add|Label)\(?\s*"((?:[^"\\]|\\.)*)""#)
+        let rx = try NSRegularExpression(pattern: #"(?:Text|Button|localized:|Window|hint|title:|add|Label|fail)\(?\s*"((?:[^"\\]|\\.)*)""#)
         var out = Set<String>()
         for m in rx.matches(in: src, range: NSRange(src.startIndex..., in: src)) {
             var key = String(src[Range(m.range(at: 1), in: src)!])

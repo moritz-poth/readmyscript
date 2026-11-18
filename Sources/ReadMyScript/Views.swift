@@ -13,15 +13,19 @@ struct ContentView: View {
         VStack(spacing: 0) {
             UpdateBanner(theme: theme)
             header
-            if model.analyticsOn {
-                Notice(theme: theme, text: Text("VoiceStudio sends usage statistics. Switch them off in VoiceStudio's settings before you read a script."))
+            if model.analyticsOn && !model.needsSetup {
+                Notice(theme: theme, text: Text("VoiceStudio sends usage statistics. Switch them off in VoiceStudio's settings before you read a script."),
+                       action: Text("Switch Off")) { Task { await model.makeStudioPrivate() } }
                     .padding(.horizontal, 20).padding(.bottom, 12)
             }
-            if model.cloudSyncOn {
-                Notice(theme: theme, text: Text("VoiceStudio's cloud sync is on: voice names and settings leave this Mac. Switch it off in VoiceStudio before you read a script."))
+            if model.cloudSyncOn && !model.needsSetup {
+                Notice(theme: theme, text: Text("VoiceStudio's cloud sync is on: voice names and settings leave this Mac. Switch it off in VoiceStudio before you read a script."),
+                       action: Text("Switch Off")) { Task { await model.makeStudioPrivate() } }
                     .padding(.horizontal, 20).padding(.bottom, 12)
             }
-            if let script = model.script {
+            if model.needsSetup && model.script == nil {
+                StudioSetupView(model: model, theme: theme)
+            } else if let script = model.script {
                 HStack(alignment: .top, spacing: 16) {
                     CastPanel(model: model, script: script, theme: theme).frame(width: 400)
                     ScriptPreview(model: model, script: script, theme: theme)
@@ -149,11 +153,14 @@ struct StudioStatus: View {
 struct Notice: View {
     let theme: Theme
     let text: Text
+    var action: Text? = nil
+    var perform: () -> Void = {}
     var body: some View {
         HStack(alignment: .top, spacing: 10) {
             Image(systemName: "exclamationmark.triangle").foregroundColor(theme.warning)
             text.fixedSize(horizontal: false, vertical: true)
             Spacer(minLength: 0)
+            if let action { Button(action: perform) { action }.buttonStyle(FerryButtonStyle(theme: theme)) }
         }
         .padding(12)
         .background(RoundedRectangle(cornerRadius: 8).fill(theme.panel))
