@@ -1,0 +1,10 @@
+.build/
+.swiftpm/
+dist/
+.DS_Store
+.omc/
+# real scripts and audiobooks never go into the repo (tests draw their own PDFs)
+*.pdf
+*.m4b
+*.mp3
+*.wav
